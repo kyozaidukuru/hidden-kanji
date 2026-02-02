@@ -28,18 +28,37 @@ function toggleGrade(g, btn) {
 function renderTerms() {
   termButtonsDiv.innerHTML = "";
   selectedTerms = [];
+
   selectedGrades.forEach(g => {
+    const wrapper = document.createElement("div");
+    wrapper.innerHTML = `<strong>${g}年</strong> `;
+
     for (let term in kanjiData[g]) {
       const btn = document.createElement("button");
-      btn.textContent = g + "年 " + term;
+      btn.textContent = term;
       btn.onclick = () => toggleTerm(g, term, btn);
-      termButtonsDiv.appendChild(btn);
+      wrapper.appendChild(btn);
     }
+
+    // ★ 全選択ボタン
+    const allBtn = document.createElement("button");
+    allBtn.textContent = "全部";
+    allBtn.onclick = () => {
+      for (let term in kanjiData[g]) {
+        const key = `${g}-${term}`;
+        if (!selectedTerms.includes(key)) selectedTerms.push(key);
+      }
+      renderKanjiList();
+      renderTerms(); // 表示更新
+    };
+    wrapper.appendChild(allBtn);
+
+    termButtonsDiv.appendChild(wrapper);
   });
 }
 
 function toggleTerm(g, term, btn) {
-  const key = g + "-" + term;
+  const key = `${g}-${term}`;
   if (selectedTerms.includes(key)) {
     selectedTerms = selectedTerms.filter(x => x !== key);
     btn.classList.remove("active");
@@ -53,21 +72,19 @@ function toggleTerm(g, term, btn) {
 function renderKanjiList() {
   kanjiListDiv.innerHTML = "";
   selectedKanji = [];
+
   selectedTerms.forEach(key => {
     const [g, term] = key.split("-");
     kanjiData[g][term].forEach(k => {
-      const span = document.createElement("span");
-      span.textContent = k;
-      span.onclick = () => {
-        span.classList.toggle("selected");
-        if (selectedKanji.includes(k)) {
-          selectedKanji = selectedKanji.filter(x => x !== k);
-        } else {
-          selectedKanji.push(k);
-        }
-      };
-      kanjiListDiv.appendChild(span);
+      if (!selectedKanji.includes(k)) selectedKanji.push(k);
     });
+  });
+
+  selectedKanji.forEach(k => {
+    const span = document.createElement("span");
+    span.textContent = k;
+    span.onclick = () => span.classList.toggle("selected");
+    kanjiListDiv.appendChild(span);
   });
 }
 
@@ -78,19 +95,3 @@ document.querySelectorAll(".gridBtn").forEach(btn => {
     gridSize = Number(btn.dataset.grid);
   };
 });
-
-document.getElementById("randomBtn").onclick = () => {
-  selectedKanji = [];
-  for (let g in kanjiData) {
-    for (let t in kanjiData[g]) {
-      selectedKanji.push(...kanjiData[g][t]);
-    }
-  }
-};
-
-document.getElementById("startBtn").onclick = () => {
-  localStorage.setItem("kanjiList", JSON.stringify(selectedKanji));
-  localStorage.setItem("gridSize", gridSize);
-  localStorage.setItem("qIndex", 0);
-  location.href = "play.html";
-};
