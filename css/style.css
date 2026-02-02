@@ -61,7 +61,7 @@ button.active {
 }
 
 .cover {
-  background: rgba(255,150,100,0.85);
+  background: #f49b6a;   /* ← 完全不透明 */
   border: 1px solid #ff7a3c;
   cursor: pointer;
 }
