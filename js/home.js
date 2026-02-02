@@ -95,3 +95,18 @@ document.querySelectorAll(".gridBtn").forEach(btn => {
     gridSize = Number(btn.dataset.grid);
   };
 });
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+}
+
+document.getElementById("startBtn").onclick = () => {
+  shuffle(selectedKanji);
+  localStorage.setItem("kanjiList", JSON.stringify(selectedKanji));
+  localStorage.setItem("gridSize", gridSize);
+  localStorage.setItem("qIndex", 0);
+  location.href = "play.html";
+};
+
