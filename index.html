@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>漢字のまど</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h1>漢字のまど</h1>
+    <p>マスをめくって、少ないヒントで漢字を当てよう！</p>
+
+    <h2>① 学年を選択</h2>
+    <div id="gradeButtons" class="button-group"></div>
+
+    <h2>② 学期を選択</h2>
+    <div id="termButtons" class="button-group"></div>
+
+    <h2>③ 出題候補の漢字</h2>
+    <div id="kanjiList" class="kanji-list"></div>
+
+    <h2>④ 出題方法</h2>
+    <button id="randomBtn">ランダム出題</button>
+
+    <h2>⑤ マス数</h2>
+    <div class="button-group">
+      <button class="gridBtn" data-grid="4">4マス</button>
+      <button class="gridBtn" data-grid="6">6マス</button>
+      <button class="gridBtn" data-grid="9">9マス</button>
+    </div>
+
+    <br>
+    <button id="startBtn">スタート</button>
+  </div>
+
+  <script src="js/kanjiData.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>
