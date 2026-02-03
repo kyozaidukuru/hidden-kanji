@@ -1,9 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700&display=swap');
 
 body {
-  font-family: 'Kosugi Maru', sans-serif;
-  background: #f7f7f7;
+  font-family: 'Zen Kaku Gothic New', 'Noto Sans JP', sans-serif;
 }
+
 
 .container, .play-container {
   max-width: 960px;
