@@ -34,8 +34,6 @@ function renderTerms() {
     wrapper.innerHTML = `<strong>${g}年</strong> `;
 
     for (let term in kanjiData[g]) {
-
-      // ★ 1年生の「1学期」は表示しない
       if (g === "1" && term === "1学期") continue;
 
       const btn = document.createElement("button");
@@ -44,25 +42,9 @@ function renderTerms() {
       wrapper.appendChild(btn);
     }
 
-    // ★ 全選択ボタン
-    const allBtn = document.createElement("button");
-    allBtn.textContent = "全部";
-    allBtn.onclick = () => {
-      for (let term in kanjiData[g]) {
-        if (g === "1" && term === "1学期") continue;
-
-        const key = `${g}-${term}`;
-        if (!selectedTerms.includes(key)) selectedTerms.push(key);
-      }
-      renderKanjiList();
-      renderTerms();
-    };
-    wrapper.appendChild(allBtn);
-
     termButtonsDiv.appendChild(wrapper);
   });
 }
-
 
 function toggleTerm(g, term, btn) {
   const key = `${g}-${term}`;
@@ -82,7 +64,9 @@ function renderKanjiList() {
 
   selectedTerms.forEach(key => {
     const [g, term] = key.split("-");
-    kanjiData[g][term].forEach(k => {
+    const grade = Number(g);
+
+    kanjiData[grade][term].forEach(k => {
       if (!selectedKanji.includes(k)) selectedKanji.push(k);
     });
   });
@@ -103,9 +87,7 @@ document.querySelectorAll(".gridBtn").forEach(btn => {
   };
 });
 
-/* ===== ここから追加部分 ===== */
-
-// 配列をシャッフルする関数
+// 配列シャッフル
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -113,10 +95,22 @@ function shuffle(array) {
   }
 }
 
-// スタートボタン処理（ランダム順にしてから出題開始）
+// スタートボタン（選んだ漢字だけ出題）
 document.getElementById("startBtn").onclick = () => {
-  shuffle(selectedKanji); // ← 並び順をランダムに
-  localStorage.setItem("kanjiList", JSON.stringify(selectedKanji));
+  const picked = [];
+
+  document.querySelectorAll("#kanjiList span.selected").forEach(span => {
+    picked.push(span.textContent);
+  });
+
+  if (picked.length === 0) {
+    alert("出題する漢字を選択してください");
+    return;
+  }
+
+  shuffle(picked);
+
+  localStorage.setItem("kanjiList", JSON.stringify(picked));
   localStorage.setItem("gridSize", gridSize);
   localStorage.setItem("qIndex", 0);
   location.href = "play.html";
