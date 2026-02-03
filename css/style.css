@@ -1,8 +1,14 @@
 @import url('https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700&display=swap');
 
 body {
-  font-family: 'Zen Kaku Gothic New', 'Noto Sans JP', sans-serif;
+  font-family:
+    "UD デジタル 教科書体 N-B",
+    "UD Digi Kyokasho N-B",
+    "Zen Kaku Gothic New",
+    "Noto Sans JP",
+    sans-serif;
 }
+
 
 
 .container, .play-container {
