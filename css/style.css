@@ -7,9 +7,11 @@ body {
     "Zen Kaku Gothic New",
     "Noto Sans JP",
     sans-serif;
+
+  background: #ffefd5;   /* ← papayawhip */
 }
 
-
+/* ===== 既存 ===== */
 
 .container, .play-container {
   max-width: 960px;
@@ -18,7 +20,8 @@ body {
 }
 
 .button-group button,
-#startBtn, .gridBtn {
+#startBtn, .gridBtn,
+.play-buttons button, .home-btn-area button {
   margin: 4px;
   padding: 8px 14px;
   font-size: 16px;
@@ -26,19 +29,6 @@ body {
 
 button.active {
   background: #ff9c66;
-  color: white;
-}
-
-.kanji-list span {
-  display: inline-block;
-  border: 1px solid #ccc;
-  padding: 6px;
-  margin: 3px;
-  cursor: pointer;
-}
-
-.kanji-list span.selected {
-  background: #ffa366;
   color: white;
 }
 
@@ -57,7 +47,7 @@ button.active {
   font-size: 360px;
   text-align: center;
   line-height: 420px;
-  font-weight: 400;
+  font-weight: 700;
 }
 
 .cover-grid {
@@ -71,11 +61,26 @@ button.active {
   background: #f49b6a;
   border: 1px solid #ff7a3c;
   cursor: pointer;
+  padding: 0;
 }
 
 .cover.hidden {
   opacity: 0;
   pointer-events: none;
+}
+
+/* ===== 追加：ボタン配置 ===== */
+
+.play-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.judge-area {
+  display: flex;
+  gap: 12px;
 }
 
 .score-area {
