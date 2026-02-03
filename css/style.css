@@ -87,3 +87,19 @@ button.active {
   text-align: right;
   font-size: 20px;
 }
+
+kanji-list span {
+  display: inline-block;
+  border: 1px solid #aaa;
+  padding: 6px 10px;
+  margin: 4px;
+  cursor: pointer;
+  background: #fff;
+  user-select: none;
+}
+
+.kanji-list span.selected {
+  background: #ff9c66;
+  color: #fff;
+  border-color: #ff7a3c;
+}
