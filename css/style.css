@@ -8,10 +8,10 @@ body {
     "Noto Sans JP",
     sans-serif;
 
-  background: #ffefd5;   /* ← papayawhip */
+  background: #ffefd5;   /* papayawhip */
 }
 
-/* ===== 既存 ===== */
+/* ===== 共通レイアウト ===== */
 
 .container, .play-container {
   max-width: 960px;
@@ -31,6 +31,26 @@ button.active {
   background: #ff9c66;
   color: white;
 }
+
+/* ===== ホーム画面（漢字選択） ===== */
+
+.kanji-list span {
+  display: inline-block;
+  border: 1px solid #aaa;
+  padding: 6px 10px;
+  margin: 4px;
+  cursor: pointer;
+  background: #fff;
+  user-select: none;
+}
+
+.kanji-list span.selected {
+  background: #ff9c66;
+  color: #fff;
+  border-color: #ff7a3c;
+}
+
+/* ===== プレイ画面 ===== */
 
 .question-number {
   font-size: 28px;
@@ -69,7 +89,7 @@ button.active {
   pointer-events: none;
 }
 
-/* ===== 追加：ボタン配置 ===== */
+/* ===== ボタン配置 ===== */
 
 .play-buttons {
   display: flex;
@@ -87,22 +107,3 @@ button.active {
   text-align: right;
   font-size: 20px;
 }
-
-kanji-list span {
-  display: inline-block;
-  border: 1px solid #aaa;
-  padding: 6px 10px;
-  margin: 4px;
-  cursor: pointer;
-  background: #fff;
-  user-select: none;
-}
-
-.kanji-list span.selected {
-  background: #ff9c66;
-  color: #fff;
-  border-color: #ff7a3c;
-}
-
-.kanji-list span { ... }
-.kanji-list span.selected { ... }
