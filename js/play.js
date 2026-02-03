@@ -1,6 +1,7 @@
 const kanjiList = JSON.parse(localStorage.getItem("kanjiList") || "[]");
 let qIndex = Number(localStorage.getItem("qIndex") || 0);
 const gridSize = Number(localStorage.getItem("gridSize") || 6);
+const limitCount = Number(localStorage.getItem("limitCount") || 0);
 
 let totalScore = Number(localStorage.getItem("totalScore") || 0);
 
@@ -13,10 +14,10 @@ const judgeArea = document.getElementById("judgeArea");
 
 let openedCount = 0;
 
-function getScoreByGrid() {
-  if (gridSize === 4) return [10,6,3,0];
-  if (gridSize === 6) return [10,8,6,4,2,0];
-  if (gridSize === 9) return [10,9,7,6,4,3,2,1,0];
+function getScoreTable() {
+  if (gridSize === 4) return [10, 6, 3, 0];
+  if (gridSize === 6) return [10, 8, 6, 4, 2, 0];
+  if (gridSize === 9) return [10, 9, 7, 6, 4, 3, 2, 1, 0];
 }
 
 function loadQuestion() {
@@ -26,12 +27,12 @@ function loadQuestion() {
   judgeArea.style.display = "none";
   buildCovers();
   updateScore();
+  totalDisplay.textContent = `合計得点：${totalScore}点`;
 }
 
 function buildCovers() {
   coverGrid.innerHTML = "";
   let rows, cols;
-
   if (gridSize === 4) [rows, cols] = [2,2];
   if (gridSize === 6) [rows, cols] = [3,2];
   if (gridSize === 9) [rows, cols] = [3,3];
@@ -58,8 +59,8 @@ function updateScore() {
     scoreDisplay.textContent = "";
     return;
   }
-  const scoreTable = getScoreByGrid();
-  let score = scoreTable[openedCount-1] ?? 0;
+  const table = getScoreTable();
+  const score = table[openedCount - 1] ?? 0;
   scoreDisplay.textContent = `現在の得点：${score}点`;
 }
 
@@ -69,8 +70,8 @@ document.getElementById("answerBtn").onclick = () => {
 };
 
 document.getElementById("correctBtn").onclick = () => {
-  const scoreTable = getScoreByGrid();
-  const score = scoreTable[openedCount-1] ?? 0;
+  const table = getScoreTable();
+  const score = table[openedCount - 1] ?? 0;
   totalScore += score;
   localStorage.setItem("totalScore", totalScore);
   nextQuestion();
@@ -83,7 +84,10 @@ document.getElementById("wrongBtn").onclick = () => {
 
 function nextQuestion() {
   qIndex++;
-  if (qIndex >= kanjiList.length) {
+
+  const maxQ = limitCount > 0 ? limitCount : kanjiList.length;
+
+  if (qIndex >= kanjiList.length || qIndex >= maxQ) {
     alert(`終了！合計得点：${totalScore}点`);
     location.href = "index.html";
   } else {
