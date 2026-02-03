@@ -7,6 +7,14 @@ const gradeButtonsDiv = document.getElementById("gradeButtons");
 const termButtonsDiv = document.getElementById("termButtons");
 const kanjiListDiv = document.getElementById("kanjiList");
 
+// ★ 漢字を全部選択ボタン
+document.getElementById("selectAllKanjiBtn").onclick = () => {
+  document.querySelectorAll("#kanjiList span").forEach(span => {
+    span.classList.add("selected");
+  });
+};
+
+// ===== 学年ボタン生成 =====
 for (let g in kanjiData) {
   const btn = document.createElement("button");
   btn.textContent = g + "年";
@@ -25,6 +33,7 @@ function toggleGrade(g, btn) {
   renderTerms();
 }
 
+// ===== 学期表示（※ 全部ボタンは無し） =====
 function renderTerms() {
   termButtonsDiv.innerHTML = "";
   selectedTerms = [];
@@ -58,6 +67,7 @@ function toggleTerm(g, term, btn) {
   renderKanjiList();
 }
 
+// ===== 漢字一覧表示 =====
 function renderKanjiList() {
   kanjiListDiv.innerHTML = "";
   selectedKanji = [];
@@ -79,6 +89,7 @@ function renderKanjiList() {
   });
 }
 
+// ===== マス数ボタン =====
 document.querySelectorAll(".gridBtn").forEach(btn => {
   btn.onclick = () => {
     document.querySelectorAll(".gridBtn").forEach(b => b.classList.remove("active"));
@@ -87,7 +98,7 @@ document.querySelectorAll(".gridBtn").forEach(btn => {
   };
 });
 
-// 配列シャッフル
+// ===== 配列シャッフル =====
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -95,7 +106,7 @@ function shuffle(array) {
   }
 }
 
-// スタートボタン（選んだ漢字だけ出題）
+// ===== スタートボタン（選んだ漢字だけ出題） =====
 document.getElementById("startBtn").onclick = () => {
   const picked = [];
 
