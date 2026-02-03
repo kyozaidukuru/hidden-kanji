@@ -2,17 +2,11 @@ let selectedGrades = [];
 let selectedTerms = [];
 let selectedKanji = [];
 let gridSize = 6;
+let limitCount = 0;
 
 const gradeButtonsDiv = document.getElementById("gradeButtons");
 const termButtonsDiv = document.getElementById("termButtons");
 const kanjiListDiv = document.getElementById("kanjiList");
-
-// ★ 漢字を全部選択ボタン
-document.getElementById("selectAllKanjiBtn").onclick = () => {
-  document.querySelectorAll("#kanjiList span").forEach(span => {
-    span.classList.add("selected");
-  });
-};
 
 // ===== 学年ボタン生成 =====
 for (let g in kanjiData) {
@@ -33,7 +27,7 @@ function toggleGrade(g, btn) {
   renderTerms();
 }
 
-// ===== 学期表示（※ 全部ボタンは無し） =====
+// ===== 学期ボタン描画 =====
 function renderTerms() {
   termButtonsDiv.innerHTML = "";
   selectedTerms = [];
@@ -67,7 +61,7 @@ function toggleTerm(g, term, btn) {
   renderKanjiList();
 }
 
-// ===== 漢字一覧表示 =====
+// ===== 漢字一覧描画 =====
 function renderKanjiList() {
   kanjiListDiv.innerHTML = "";
   selectedKanji = [];
@@ -75,7 +69,6 @@ function renderKanjiList() {
   selectedTerms.forEach(key => {
     const [g, term] = key.split("-");
     const grade = Number(g);
-
     kanjiData[grade][term].forEach(k => {
       if (!selectedKanji.includes(k)) selectedKanji.push(k);
     });
@@ -89,6 +82,13 @@ function renderKanjiList() {
   });
 }
 
+// ===== 漢字を全部選択ボタン =====
+document.getElementById("selectAllKanjiBtn").onclick = () => {
+  document.querySelectorAll("#kanjiList span").forEach(span => {
+    span.classList.add("selected");
+  });
+};
+
 // ===== マス数ボタン =====
 document.querySelectorAll(".gridBtn").forEach(btn => {
   btn.onclick = () => {
@@ -98,7 +98,16 @@ document.querySelectorAll(".gridBtn").forEach(btn => {
   };
 });
 
-// ===== 配列シャッフル =====
+// ===== 出題数ボタン =====
+document.querySelectorAll(".countBtn").forEach(btn => {
+  btn.onclick = () => {
+    document.querySelectorAll(".countBtn").forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    limitCount = Number(btn.dataset.count);
+  };
+});
+
+// ===== シャッフル =====
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -106,7 +115,7 @@ function shuffle(array) {
   }
 }
 
-// ===== スタートボタン（選んだ漢字だけ出題） =====
+// ===== スタートボタン =====
 document.getElementById("startBtn").onclick = () => {
   const picked = [];
 
@@ -124,5 +133,8 @@ document.getElementById("startBtn").onclick = () => {
   localStorage.setItem("kanjiList", JSON.stringify(picked));
   localStorage.setItem("gridSize", gridSize);
   localStorage.setItem("qIndex", 0);
+  localStorage.setItem("totalScore", 0);
+  localStorage.setItem("limitCount", limitCount);
+
   location.href = "play.html";
 };
