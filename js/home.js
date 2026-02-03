@@ -90,11 +90,15 @@ function renderKanjiList() {
 
 document.querySelectorAll(".gridBtn").forEach(btn => {
   btn.onclick = () => {
-    document.querySelectorAll(".gridBtn").forEach(b=>b.classList.remove("active"));
+    document.querySelectorAll(".gridBtn").forEach(b => b.classList.remove("active"));
     btn.classList.add("active");
     gridSize = Number(btn.dataset.grid);
   };
 });
+
+/* ===== ここから追加部分 ===== */
+
+// 配列をシャッフルする関数
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -102,11 +106,11 @@ function shuffle(array) {
   }
 }
 
+// スタートボタン処理（ランダム順にしてから出題開始）
 document.getElementById("startBtn").onclick = () => {
-  shuffle(selectedKanji);
+  shuffle(selectedKanji); // ← 並び順をランダムに
   localStorage.setItem("kanjiList", JSON.stringify(selectedKanji));
   localStorage.setItem("gridSize", gridSize);
   localStorage.setItem("qIndex", 0);
   location.href = "play.html";
 };
-
