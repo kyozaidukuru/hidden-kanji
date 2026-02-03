@@ -34,6 +34,10 @@ function renderTerms() {
     wrapper.innerHTML = `<strong>${g}年</strong> `;
 
     for (let term in kanjiData[g]) {
+
+      // ★ 1年生の「1学期」は表示しない
+      if (g === "1" && term === "1学期") continue;
+
       const btn = document.createElement("button");
       btn.textContent = term;
       btn.onclick = () => toggleTerm(g, term, btn);
@@ -45,17 +49,20 @@ function renderTerms() {
     allBtn.textContent = "全部";
     allBtn.onclick = () => {
       for (let term in kanjiData[g]) {
+        if (g === "1" && term === "1学期") continue;
+
         const key = `${g}-${term}`;
         if (!selectedTerms.includes(key)) selectedTerms.push(key);
       }
       renderKanjiList();
-      renderTerms(); // 表示更新
+      renderTerms();
     };
     wrapper.appendChild(allBtn);
 
     termButtonsDiv.appendChild(wrapper);
   });
 }
+
 
 function toggleTerm(g, term, btn) {
   const key = `${g}-${term}`;
