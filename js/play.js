@@ -12,7 +12,7 @@ let initialScore = gridSize === 9 ? 10 : gridSize;
 
 function loadQuestion() {
   openedCount = 0;
-  qNum.textContent = `第${qIndex+1}問`;
+  qNum.textContent = `第${qIndex + 1}問`;
   kanjiChar.textContent = kanjiList[qIndex];
   buildCovers();
   updateScore();
@@ -21,14 +21,14 @@ function loadQuestion() {
 function buildCovers() {
   coverGrid.innerHTML = "";
   let rows, cols;
-  if (gridSize === 4) [rows, cols] = [2,2];
-  if (gridSize === 6) [rows, cols] = [2,3];
-  if (gridSize === 9) [rows, cols] = [3,3];
+  if (gridSize === 4) [rows, cols] = [2, 2];
+  if (gridSize === 6) [rows, cols] = [2, 3];
+  if (gridSize === 9) [rows, cols] = [3, 3];
 
   coverGrid.style.gridTemplateRows = `repeat(${rows},1fr)`;
   coverGrid.style.gridTemplateColumns = `repeat(${cols},1fr)`;
 
-  for (let i=0;i<gridSize;i++) {
+  for (let i = 0; i < gridSize; i++) {
     const div = document.createElement("div");
     div.className = "cover";
     div.onclick = () => {
