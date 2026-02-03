@@ -21,8 +21,9 @@ function loadQuestion() {
 function buildCovers() {
   coverGrid.innerHTML = "";
   let rows, cols;
+
   if (gridSize === 4) [rows, cols] = [2, 2];
-  if (gridSize === 6) [rows, cols] = [2, 3];
+  if (gridSize === 6) [rows, cols] = [3, 2]; // ← 縦3 × 横2 に変更
   if (gridSize === 9) [rows, cols] = [3, 3];
 
   coverGrid.style.gridTemplateRows = `repeat(${rows},1fr)`;
