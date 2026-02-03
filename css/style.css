@@ -103,3 +103,6 @@ kanji-list span {
   color: #fff;
   border-color: #ff7a3c;
 }
+
+.kanji-list span { ... }
+.kanji-list span.selected { ... }
