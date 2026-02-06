@@ -61,7 +61,7 @@ function updateScore() {
   }
   const table = getScoreTable();
   const score = table[openedCount - 1] ?? 0;
-  scoreDisplay.textContent = `現在の得点：${score}点`;
+  scoreDisplay.textContent = `ここでわかった人は：${score}点`;
 }
 
 document.getElementById("answerBtn").onclick = () => {
