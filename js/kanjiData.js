@@ -221,3 +221,6 @@ const juniorKanjiData = {
       "湾","腕",]
         }
 };
+
+window.kanjiData = kanjiData;
+window.juniorKanjiData = juniorKanjiData;
