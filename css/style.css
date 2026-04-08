@@ -153,18 +153,24 @@ button.active { background: #FFB74D; box-shadow: 0 4px 0 #d99a3d; color: white; 
 
 .cover {
     background: #FFD59E;
-    /* ★丸み(border-radius)をなくして完全な四角にする */
+    /* ★丸みなし */
     border-radius: 0;
+    /* ★濃いオレンジ色で縁取りを追加 */
+    border: 1px solid #d99a3d; 
+    /* ボーダーを含めてサイズ計算するように設定（隙間防止） */
+    box-sizing: border-box;
+    
     cursor: pointer;
     transition: transform 0.2s, opacity 0.3s;
-    /* 密着させるため、隣り合うカバーとの境界線をわずかに重ねる裏技 */
+    
+    /* 隣り合うボーダーが重なって太く見えないように調整 */
     margin: -0.5px; 
 }
 
 .cover:hover {
+    /* ホバー時に少しだけ色を変えて「押せる」ことを分かりやすく */
     background: #ffbc6e;
 }
-
 .cover.hidden {
     opacity: 0;
     pointer-events: none;
