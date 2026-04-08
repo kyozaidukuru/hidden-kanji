@@ -1,6 +1,6 @@
 const allKanjiData = { 
-  ...(typeof kanjiData !== 'undefined' ? kanjiData : {}), 
-  ...(typeof juniorKanjiData !== 'undefined' ? juniorKanjiData : {}) 
+  ...(window.kanjiData || {}), 
+  ...(window.juniorKanjiData || {}) 
 };
 
 let selectedGrades = [];
