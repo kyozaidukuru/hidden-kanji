@@ -1,5 +1,7 @@
-// 1. 小学生と中学生のデータを統合
-const allKanjiData = { ...kanjiData, ...juniorKanjiData };
+const allKanjiData = { 
+  ...(typeof kanjiData !== 'undefined' ? kanjiData : {}), 
+  ...(typeof juniorKanjiData !== 'undefined' ? juniorKanjiData : {}) 
+};
 
 let selectedGrades = [];
 let selectedTerms = [];
