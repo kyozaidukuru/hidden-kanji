@@ -1,11 +1,8 @@
-// ブラウザがデータを認識するまで少し待つか、windowから確実に取得する
-const getKanjiData = () => {
-  const k = window.kanjiData || {};
-  const j = window.juniorKanjiData || {};
-  return { ...k, ...j };
+// 1. データの統合（windowオブジェクトから確実に取得）
+const allKanjiData = { 
+  ...(window.kanjiData || {}), 
+  ...(window.juniorKanjiData || {}) 
 };
-
-const allKanjiData = getKanjiData();
 
 let selectedGrades = [];
 let selectedTerms = [];
@@ -17,17 +14,41 @@ const gradeButtonsDiv = document.getElementById("gradeButtons");
 const termButtonsDiv = document.getElementById("termButtons");
 const kanjiListDiv = document.getElementById("kanjiList");
 
-// ===== ① カテゴリーボタン生成（データがあるか確認してから回す） =====
-if (Object.keys(allKanjiData).length === 0) {
-  console.error("データが読み込めていません。kanjiData.jsのパスや中身を確認してください。");
-}
+// ===== ① カテゴリーボタン（小学校・中学校を分けて生成） =====
+function renderGradeButtons() {
+  gradeButtonsDiv.innerHTML = "";
 
-for (let g in allKanjiData) {
-  const btn = document.createElement("button");
-  // 数字なら「年」を付け、それ以外（あ、か…）ならそのまま
-  btn.textContent = isNaN(g) ? g : g + "年";
-  btn.onclick = () => toggleGrade(g, btn);
-  gradeButtonsDiv.appendChild(btn);
+  // --- 小学校セクション ---
+  const primarySection = document.createElement("div");
+  primarySection.innerHTML = "<p style='margin: 10px 0 5px; font-weight: bold; color: #2c3e50;'>【小学校】学年を選択</p>";
+  gradeButtonsDiv.appendChild(primarySection);
+
+  // 1〜6年を順番に生成
+  for (let g = 1; g <= 6; g++) {
+    if (allKanjiData[g]) {
+      const btn = document.createElement("button");
+      btn.textContent = g + "年";
+      btn.classList.add("primary-btn"); // CSSで色分けしたい時用のクラス名
+      btn.onclick = () => toggleGrade(g.toString(), btn);
+      gradeButtonsDiv.appendChild(btn);
+    }
+  }
+
+  // --- 中学校セクション ---
+  const juniorSection = document.createElement("div");
+  juniorSection.innerHTML = "<p style='margin: 20px 0 5px; font-weight: bold; color: #2c3e50;'>【中学校】読みの50音を選択</p>";
+  gradeButtonsDiv.appendChild(juniorSection);
+
+  // 数字以外（あ、か、さ...）を生成
+  for (let g in allKanjiData) {
+    if (isNaN(g)) {
+      const btn = document.createElement("button");
+      btn.textContent = g;
+      btn.classList.add("junior-btn"); // CSSで色分けしたい時用のクラス名
+      btn.onclick = () => toggleGrade(g, btn);
+      gradeButtonsDiv.appendChild(btn);
+    }
+  }
 }
 
 function toggleGrade(g, btn) {
@@ -45,7 +66,6 @@ function toggleGrade(g, btn) {
 function renderTerms() {
   termButtonsDiv.innerHTML = "";
   
-  // 選択解除されたカテゴリーのTermを掃除
   selectedTerms = selectedTerms.filter(key => {
     const [g] = key.split("-");
     return selectedGrades.includes(g);
@@ -59,7 +79,6 @@ function renderTerms() {
     const label = isNaN(g) ? g : `${g}年`;
     wrapper.innerHTML = `<strong>${label}</strong> `;
 
-    // 配列（中学生）かオブジェクト（小学生）かで分岐
     if (Array.isArray(data)) {
       const btn = document.createElement("button");
       btn.textContent = "全表示";
@@ -123,7 +142,7 @@ function renderKanjiList() {
   });
 }
 
-// ===== 各種ボタンイベント =====
+// ===== ボタンイベント初期設定 =====
 document.getElementById("selectAllKanjiBtn").onclick = () => {
   document.querySelectorAll("#kanjiList span").forEach(span => {
     span.classList.add("selected");
@@ -173,3 +192,6 @@ document.getElementById("startBtn").onclick = () => {
 
   location.href = "play.html";
 };
+
+// 実行！
+renderGradeButtons();
